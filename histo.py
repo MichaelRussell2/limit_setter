@@ -3,34 +3,44 @@
 
 class histo(object):
     "Simple histogram class"
+
+    #constructor
+    def __init__(self, xmin=None, xmax=None, bins=None):
+        self._xmin = xmin
+        self._xmax = xmax
+        self._bins = bins
     
-#    def __init__(self, path=None):
-        
-        
-    def from_data(self, path=None):
+    #load from 3 column file    
+    @classmethod
+    def from_dat(cls, path=None):
         import numpy as np
-        self.path = path
-        self.columns = np.loadtxt(path,unpack=True)
+        columns = np.loadtxt(path,unpack=True)
         try:
-            assert len(self.columns) == 3
+            assert len(columns) == 3
         except:
             print "Error. Histogram has wrong input format"
             print "Should have three columns - x_min x_max y "
             print "Exiting"
             import sys
             sys.exit(1)
-        self._xmin = self.columns[0]
-        self._xmax = self.columns[1]
-        self._bins = self.columns[2]
-     
-    def from_root(self,path=None,th1f=None):
+        xmin = columns[0]
+        xmax = columns[1]
+        bins = columns[2]
+        return cls(xmin, xmax, bins)
+
+    #load from ROOT file
+    @classmethod()
+    def from_root(cls,path=None,th1f=None):
         from ROOT import TFile
+        import numpy as np
+
         fin = TFile(path)
         hist = fin.Get(th1f)
-        self._xmin = [ hist.GetBinLowEdge(i) for i in xrange(hist.GetSize() ) ]
-        self._xmax = [ hist.GetBinLowEdge(i+1) for i in xrange(hist.GetSize() ) ]
-        self._bins = [ hist.GetBinContent(i+1) for i in xrange(hist.GetSize() ) ]                
-            
+        xmin = np.asarray([ hist.GetBinLowEdge(i) for i in xrange(hist.GetSize())])
+        xmax = np.asarray([ hist.GetBinLowEdge(i+1) for i in xrange(hist.GetSize())])
+        bins = np.asarray([ hist.GetBinContent(i+1) for i in xrange(hist.GetSize())]) #bin0=underflow
+        return cls(xmin, xmax, bins)
+    
     def xmin(self,binnum=None):
          return self._xmin[binnum] if binnum is not None else self._xmin
 
