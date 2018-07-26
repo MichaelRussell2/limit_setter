@@ -1,10 +1,6 @@
 # limit-setter
 
-A frequentist hypothesis testing tool, based on the [CLs method](https://indico.cern.ch/event/398949/attachments/799330/1095613/The_CLs_Technique.pdf).
-
-Largely a python adaptation of Thomas Junk's [MClimits](https://www-cdf.fnal.gov/~trj/mclimit/production/mclimit.html) code.
-
-Requires [numpy]
+A frequentist hypothesis testing tool, based on the [CLs method](https://indico.cern.ch/event/398949/attachments/799330/1095613/The_CLs_Technique.pdf). Largely a python adaptation of Thomas Junk's [MClimits](https://www-cdf.fnal.gov/~trj/mclimit/production/mclimit.html) code. Requires numpy.
 
 ## Input
 
@@ -14,7 +10,7 @@ Requires [numpy]
 ## Algorithm
 
    * For each histogram bin, evaluate log-likelihood ratio for signal[bin], background[bin] and data (for setting limits on a test hypothesis, set data = background)
-   *  Run number of Monte-Carlo pseudoexperiments, where pseudo-data is drawn from a Poisson distribution with mean = bkg[bin] for null hyp and mean = sig[bin]+bkg[bin]
+   * Run number of Monte-Carlo pseudoexperiments, where pseudo-data is drawn from a Poisson distribution with mean = bkg[bin] for null hyp and mean = sig[bin]+bkg[bin] for test hyp
    * CLb for that bin = fraction of pseudo-experiments with log-likelihood ratio less than data (under null hypothesis)
    * CLsb for that bin = ditto with test hypothesis
    * CLs = CLsb/CLb.
