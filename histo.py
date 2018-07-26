@@ -41,12 +41,14 @@ class histo(object):
         bins = np.asarray([ hist.GetBinContent(i+1) for i in xrange(hist.GetSize())]) #bin0=underflow
         return cls(xmin, xmax, bins)
 
-    #bin raw data from ROOT tree
+    #bin raw data from ROOT tree (dtype= "i": int or "d": float)
     @classmethod
-    def from_tree(cls,path=None,tree="tree",branch=None,binwidth=None,xmin=None,xmax=None,weight=None,normed=False,dtype=None):
+    def from_tree(cls,path=None,tree=None,branch=None,binwidth=None,xmin=None,xmax=None,weight=None,normed=False,dtype=None):
         from ROOT import TFile, TTree
         import numpy as np
         import array
+
+        tree = "tree" if tree is None else tree
         
         fin = TFile(path)
         tin = fin.Get(tree)
@@ -74,9 +76,9 @@ class histo(object):
         nbins = int(nbins)
 
         if normed:
-            yvals, binedges = np.histogram(data,nbins, range=(xmin,xmax),density=True)
+            yvals, binedges = np.histogram(data,nbins, range=(xmin,xmax),weight=weights,density=True)
         else:
-            yvals, binedges = np.histogram(data,nbins, range=(xmin,xmax),density=False)
+            yvals, binedges = np.histogram(data,nbins, range=(xmin,xmax),weight=weights,density=False)
 
         #lower and upper edges
         binlo = binedges[:-1]
