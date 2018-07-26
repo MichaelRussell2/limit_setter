@@ -1,10 +1,7 @@
 # limit-setter
 
-A frequentist hypothesis testing tool, based on the [CLs method](https://indico.cern.ch/event/398949/attachments/799330/1095613/The_CLs_Technique.pdf).
-
-Largely a python adaptation of Thomas Junk's [MClimits](https://www-cdf.fnal.gov/~trj/mclimit/production/mclimit.html) code.
-
-Requires [numpy]
+A frequentist hypothesis testing tool, based on the [CLs method](https://indico.cern.ch/event/398949/attachments/799330/1095613/The_CLs_Technique.pdf). Largely a python adaptation of Thomas Junk's [MClimits](https://www-cdf.fnal.gov/~trj/mclimit/production/mclimit.html) code.
+Requires numpy.
 
 ## Input
 
